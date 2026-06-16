@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .form-section {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .student-list {
+            margin-top: 30px;
+        }
+
+        .student-list h2 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .student-item {
+            background-color: #f9f9f9;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 4px solid #4CAF50;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .student-info {
+            flex: 1;
+        }
+
+        .student-info p {
+            margin: 5px 0;
+            color: #555;
+        }
+
+        .student-info strong {
+            color: #333;
+        }
+
+        .delete-btn {
+            background-color: #f44336;
+            padding: 8px 15px;
+            width: auto;
+            margin-left: 10px;
+        }
+
+        .delete-btn:hover {
+            background-color: #da190b;
+        }
+
+        .no-students {
+            text-align: center;
+            color: #999;
+            padding: 20px;
+        }
+
+        .error-message {
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .success-message {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Student Management System</h1>
+
+        <!-- Form Section -->
+        <div class="form-section">
+            <div id="errorMessage" class="error-message"></div>
+            <div id="successMessage" class="success-message"></div>
+
+            <div class="form-group">
+                <label for="studentName">Student Name:</label>
+                <input type="text" id="studentName" placeholder="Enter student name">
+            </div>
+
+            <div class="form-group">
+                <label for="studentId">Student ID:</label>
+                <input type="text" id="studentId" placeholder="Enter student ID">
+            </div>
+
+            <div class="form-group">
+                <label for="studentEmail">Email:</label>
+                <input type="text" id="studentEmail" placeholder="Enter email">
+            </div>
+
+            <div class="form-group">
+                <label for="studentGrade">Grade:</label>
+                <input type="text" id="studentGrade" placeholder="Enter grade">
+            </div>
+
+            <button onclick="addStudent()">Add Student</button>
+        </div>
+
+        <!-- Student List Section -->
+        <div class="student-list">
+            <h2>All Students</h2>
+            <div id="studentListContainer"></div>
+        </div>
+    </div>
+
+    <script>
+        // Array to store all students
+        var students = [];
+
+        // Function to add a student
+        function addStudent() {
+            // Get values from input fields
+            var name = document.getElementById('studentName').value;
+            var id = document.getElementById('studentId').value;
+            var email = document.getElementById('studentEmail').value;
+            var grade = document.getElementById('studentGrade').value;
+
+            // Check if all fields are filled
+            if (name === '' || id === '' || email === '' || grade === '') {
+                showError('Please fill all fields');
+                return;
+            }
+
+            // Check if student ID already exists
+            var studentExists = false;
+            for (var i = 0; i < students.length; i++) {
+                if (students[i].id === id) {
+                    studentExists = true;
+                    break;
+                }
+            }
+
+            if (studentExists) {
+                showError('Student ID already exists');
+                return;
+            }
+
+            // Create student object
+            var student = {
+                name: name,
+                id: id,
+                email: email,
+                grade: grade
+            };
+
+            // Add student to array
+            students.push(student);
+
+            // Clear form
+            document.getElementById('studentName').value = '';
+            document.getElementById('studentId').value = '';
+            document.getElementById('studentEmail').value = '';
+            document.getElementById('studentGrade').value = '';
+
+            // Show success message
+            showSuccess('Student added successfully');
+
+            // Display all students
+            displayStudents();
+        }
+
+        // Function to delete a student
+        function deleteStudent(studentId) {
+            var index = -1;
+
+            // Find student with matching ID
+            for (var i = 0; i < students.length; i++) {
+                if (students[i].id === studentId) {
+                    index = i;
+                    break;
+                }
+            }
+
+            // Remove student from array
+            if (index !== -1) {
+                students.splice(index, 1);
+                showSuccess('Student deleted successfully');
+                displayStudents();
+            }
+        }
+
+        // Function to display all students
+        let displayStudents = () => {
+            var container = document.getElementById('studentListContainer');
+
+            // Clear previous content
+            container.innerHTML = '';
+
+            // Check if there are students
+            if (students.length === 0) {
+                container.innerHTML = '<p class="no-students">No students added yet</p>';
+                return;
+            }
+
+            // Loop through students and create HTML for each
+            for (var i = 0; i < students.length; i++) {
+                var student = students[i];
+
+                // Create student item HTML
+                var studentDiv = document.createElement('div');
+                studentDiv.setAttribute('class', 'student-item');
+
+                var studentInfo = document.createElement('div');
+                studentInfo.setAttribute('class', 'student-info');
+
+                // Create name paragraph
+                var nameParagraph = document.createElement('p');
+                nameParagraph.innerHTML = '<strong>Name:</strong> ' + student.name;
+
+                // Create ID paragraph
+                var idParagraph = document.createElement('p');
+                idParagraph.innerHTML = '<strong>ID:</strong> ' + student.id;
+
+                // Create email paragraph
+                var emailParagraph = document.createElement('p');
+                emailParagraph.innerHTML = '<strong>Email:</strong> ' + student.email;
+
+                // Create grade paragraph
+                var gradeParagraph = document.createElement('p');
+                gradeParagraph.innerHTML = '<strong>Grade:</strong> ' + student.grade;
+
+                // Add all paragraphs to info
+                studentInfo.appendChild(nameParagraph);
+                studentInfo.appendChild(idParagraph);
+                studentInfo.appendChild(emailParagraph);
+                studentInfo.appendChild(gradeParagraph);
+
+                // Create delete button
+                var deleteButton = document.createElement('button');
+                deleteButton.setAttribute('class', 'delete-btn');
+                deleteButton.innerHTML = 'Delete';
+                deleteButton.setAttribute('onclick', 'deleteStudent("' + student.id + '")');
+
+                // Add info and button to student div
+                studentDiv.appendChild(studentInfo);
+                studentDiv.appendChild(deleteButton);
+
+                // Add student div to container
+                container.appendChild(studentDiv);
+            }
+        }
+
+        // Function to show error message
+        function showError(message) {
+            var errorDiv = document.getElementById('errorMessage');
+            errorDiv.innerHTML = message;
+            errorDiv.style.display = 'block';
+
+            // Hide error after 3 seconds
+            setTimeout(function() {
+                errorDiv.style.display = 'none';
+            }, 3000);
+        }
+
+        // Function to show success message
+        function showSuccess(message) {
+            var successDiv = document.getElementById('successMessage');
+            successDiv.innerHTML = message;
+            successDiv.style.display = 'block';
+
+            // Hide success after 3 seconds
+            setTimeout(function() {
+                successDiv.style.display = 'none';
+            }, 3000);
+        }
+
+        // Display students when page loads
+        displayStudents();
+    </script>
+</body>
+</html>

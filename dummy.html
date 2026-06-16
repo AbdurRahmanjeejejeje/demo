@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            padding: 30px;
+        }
+
+        .alert {
+            padding: 12px 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        .alert.show {
+            display: block;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .form-section h2 {
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 10px 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-family: inherit;
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            background: white;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+
+        .form-group input::placeholder {
+            color: #999;
+        }
+
+        .radio-group,
+        .checkbox-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .radio-group label,
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: normal;
+            margin-bottom: 0;
+            cursor: pointer;
+        }
+
+        .radio-group input[type="radio"],
+        .checkbox-group input[type="checkbox"] {
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .add-btn {
+            grid-column: 1 / -1;
+            padding: 12px 30px;
+            background: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .add-btn:hover {
+            background: #27ae60;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+        }
+
+        .add-btn:active {
+            transform: translateY(0);
+        }
+
+        .add-btn:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card h3 {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .stat-card .number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .records-section h2 {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 20px;
+        }
+
+        .filter-group {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .filter-group label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .filter-group select {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .student-card {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            transition: all 0.3s;
+        }
+
+        .student-card:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .student-info h4 {
+            color: #333;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+
+        .student-info p {
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .status {
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status.Active {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status.Inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .delete-btn {
+            padding: 8px 16px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .delete-btn:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        .delete-btn:active {
+            transform: translateY(0);
+        }
+
+        .no-students {
+            text-align: center;
+            color: #999;
+            padding: 40px 20px;
+            font-size: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .student-card {
+                flex-direction: column;
+            }
+
+            .delete-btn {
+                margin-top: 15px;
+                width: 100%;
+            }
+
+            .stats-section {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>📚 Complete Student Management System</h1>
+            <p>Manage students with full features</p>
+        </div>
+
+        <div class="main-content">
+            <!-- ALERT MESSAGES -->
+            <div id="alertBox" class="alert">
+                <span id="alertMessage"></span>
+            </div>
+
+            <!-- ADD STUDENT FORM -->
+            <form id="studentForm" class="form-section" novalidate>
+                <h2>Add New Student</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Full Name:</label>
+                        <input type="text" id="fullName" placeholder="Enter full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Student ID:</label>
+                        <input type="text" id="studentId" placeholder="e.g., STU001" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email:</label>
+                        <input type="email" id="email" placeholder="student@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone:</label>
+                        <input type="tel" id="phone" placeholder="0300-XXXXXXX" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Grade:</label>
+                        <select id="grade" required>
+                            <option value="">Select Grade</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="F">F</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Section:</label>
+                        <select id="section" required>
+                            <option value="">Select Section</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                        </select>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Status:</label>
+                        <div class="radio-group">
+                            <label>
+                                <input type="radio" name="status" value="Active" checked>
+                                Active
+                            </label>
+                            <label>
+                                <input type="radio" name="status" value="Inactive">
+                                Inactive
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Subjects:</label>
+                        <div class="checkbox-group">
+                            <label>
+                                <input type="checkbox" name="subjects" value="Math">
+                                Math
+                            </label>
+                            <label>
+                                <input type="checkbox" name="subjects" value="English">
+                                English
+                            </label>
+                            <label>
+                                <input type="checkbox" name="subjects" value="Science">
+                                Science
+                            </label>
+                            <label>
+                                <input type="checkbox" name="subjects" value="History">
+                                History
+                            </label>
+                            <label>
+                                <input type="checkbox" name="subjects" value="Urdu">
+                                Urdu
+                            </label>
+                        </div>
+                    </div>
+                    <button type="button" class="add-btn" id="addBtn">Add Student</button>
+                </div>
+            </form>
+
+            <!-- STATISTICS SECTION -->
+            <div class="stats-section">
+                <div class="stat-card">
+                    <h3>Total Students</h3>
+                    <div class="number" id="totalStudents">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Active Students</h3>
+                    <div class="number" id="activeCount">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Inactive Students</h3>
+                    <div class="number" id="inactiveCount">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Average Grade</h3>
+                    <div class="number" id="averageGrade">-</div>
+                </div>
+            </div>
+
+            <!-- STUDENT RECORDS SECTION -->
+            <div class="records-section">
+                <h2>Student Records</h2>
+                <div class="filter-group">
+                    <label>Filter by Grade:</label>
+                    <select id="filterGrade">
+                        <option value="">All Grades</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                        <option value="F">F</option>
+                    </select>
+                </div>
+                <div id="studentRecords">
+                    <div class="no-students">No students added yet. ccAdd your first student!</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+
+        // States 
+        const state = {
+            students: [],
+            currentFilter: ''
+        };
+
+        // grade points
+        const GRADE_POINTS = {
+            'A': 5,
+            'B': 4,
+            'C': 3,
+            'D': 2,
+            'F': 1
+        };
+
+        // name and email and also number validation rules
+        const VALIDATION_RULES = {
+            MIN_PHONE_LENGTH: 10,
+            MIN_NAME_LENGTH: 2,
+            MAX_NAME_LENGTH: 50,
+            EMAIL_REGEX: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        };
+
+
+        // Selecting all the dom tags
+        const DOM = {
+            fullname: document.getElementById('fullName'),
+            studentId: document.getElementById('studentId'),
+            email: document.getElementById('email'),
+            phone: document.getElementById('phone'),
+            grade: document.getElementById('grade'),
+            section: document.getElementById('section'),
+            status: document.querySelectorAll('input[name="status"]'),
+            subjects: document.querySelectorAll('input[name="subjects"]'),
+
+            form: document.getElementById('studentForm'),
+            addBtn: document.getElementById('addBtn'),
+            recordsContainer: document.getElementById('studentRecords'),
+            filterGrade: document.getElementById('filterGrade'),
+            totalStudents: document.getElementById('totalStudents'),
+            activeCount: document.getElementById('activeCount'),
+            inactiveCount: document.getElementById('inactiveCount'),
+            averageGrade: document.getElementById('averageGrade'),
+            alertBox: document.getElementById('alertBox'),
+            alertMessage: document.getElementById('alertMessage')
+
+        }
+
+        // sanitizing inputs is  must 
+        function sanitizeInput(input) {
+            if (!input) return '';
+            const div = document.createElement('div');
+            div.textContent = input;
+            return div.innerHTML;
+        }
+
+        // function to validate inputs
+        function validateForm(data) {
+            // Empty field checks
+            if (!data.fullName) return 'Full Name is required';
+            if (!data.studentId) return 'Student ID is required';
+            if (!data.email) return 'Email is required';
+            if (!data.phone) return 'Phone is required';
+            if (!data.grade) return 'Grade is required';
+            if (!data.section) return 'Section is required';
+            if (data.subjects.length === 0) return 'Select at least one subject';
+
+            // Length validations
+            if (data.fullName.length < VALIDATION_RULES.MIN_NAME_LENGTH)
+                return `Name must be at least ${VALIDATION_RULES.MIN_NAME_LENGTH} characters`;
+
+            if (data.fullName.length > VALIDATION_RULES.MAX_NAME_LENGTH)
+                return `Name cannot exceed ${VALIDATION_RULES.MAX_NAME_LENGTH} characters`;
+
+            // Format validations
+            if (!VALIDATION_RULES.EMAIL_REGEX.test(data.email))
+                return 'Please enter a valid email address';
+
+            if (data.phone.length < VALIDATION_RULES.MIN_PHONE_LENGTH)
+                return `Phone must be at least ${VALIDATION_RULES.MIN_PHONE_LENGTH} digits`;
+
+            // Business logic validations
+            if (!GRADE_POINTS.hasOwnProperty(data.grade))
+                return 'Invalid grade selected';
+
+            // Duplicate check
+            const isDuplicate = state.students.some(s => s.studentId === data.studentId);
+
+            if (isDuplicate) return 'Student ID already exists';
+
+            // All good
+            return null;
+        }
+
+
+        // Fuction to get data from form
+        function getFormData() {
+            const fullName = DOM.fullname.value.trim();
+
+            const studentId = DOM.studentId.value.trim().toUpperCase();
+            const email = DOM.email.value.trim().toLowerCase();
+            const phone = DOM.phone.value.trim();
+            const grade = DOM.grade.value;
+            const section = DOM.section.value;
+
+            const status = Array.from(DOM.status).find(r => r.checked);
+            const selectedSubjects = Array.from(DOM.subjects).filter(s => s.checked).map(s => s.value);
+
+            return {
+                fullName: sanitizeInput(fullName),
+                studentId: sanitizeInput(studentId),
+                email,
+                phone,
+                grade,
+                section,
+                status: status ? status.value : 'Active',
+                subjects: selectedSubjects
+            };
+        }
+
+        //   * Generate unique ID
+        //  * Learned: Date.now() can collide with rapid submissions
+        //  * Using Math.random() ensures uniqueness even with fast clicks
+        //  */
+        function generateUniqueId() {
+            return Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        }
+
+
+        // Fuction to add students
+        function addStudent() {
+            const data = getFormData();
+            const error = validateForm(data);
+
+            if (error) {
+
+
+                console.log('Validation failed', error);
+                // showAlert(error, 'error');
+                return;
+            }
+
+            // Add to state with metadata
+            const student = {
+                ...data,
+                id: generateUniqueId(),
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            };
+
+            state.students.push(student);
+            console.log('Student added', student);
+
+            // Reset and refresh
+            DOM.form.reset();
+            
+            updateDisplay();
+
+
+        }
+
+        function getFilteredStudents() {
+            const selectedGrade = state.currentFilter;
+
+            if (!selectedGrade || selectedGrade === '') {
+                return state.students;
+            }
+
+            return state.students.filter(student => student.grade === selectedGrade);
+        }
+
+
+
+        function displayStudents() {
+            const filtered = getFilteredStudents();
+            console.log(`Displaying ${filtered.length} of ${state.students.length} students`);
+
+            if (filtered.length === 0) {
+                DOM.recordsContainer.innerHTML =
+                    '<div class="no-students">No students found. Add your first student!</div>';
+                return;
+            }
+
+            DOM.recordsContainer.innerHTML = filtered
+                .map(student => `
+                    <div class="student-card">
+                        <div class="student-info">
+                            <h4>${student.fullName}</h4>
+                            <p><strong>ID:</strong> ${student.studentId}</p>
+                            <p><strong>Email:</strong> ${student.email}</p>
+                            <p><strong>Phone:</strong> ${student.phone}</p>
+                            <p><strong>Grade:</strong> ${student.grade} | <strong>Section:</strong> ${student.section}</p>
+                            <p><strong>Status:</strong> <span class="status ${student.status}">${student.status}</span></p>
+                            <p><strong>Subjects:</strong> ${student.subjects.join(', ')}</p>
+                        </div>
+                        <button class="delete-btn" onclick="deleteStudent('${student.id}')">Delete</button>
+                    </div>
+                `)
+                .join('');
+        }
+
+
+        function updateDisplay() {
+            displayStudents();
+            updateStats();
+        }
+
+
+
+
+
+
+        // When clicking the button
+        DOM.addBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            addStudent();
+        })
+
+
+    </script>
+
+
+</body>
+
+</html>

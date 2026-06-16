@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial;
+            padding: 20px;
+            max-width: 500px;
+        }
+
+        input,
+        button {
+            padding: 8px;
+            font-size: 16px;
+            margin: 5px;
+        }
+
+        .item {
+            background: #f0f0f0;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>localStorage Demo</h1>
+
+    <input type="text" id="nameInput" placeholder="Enter name">
+    <input type="text" id="rollInput" placeholder="Enter roll number">
+    <button onclick="addItem()">Add</button>
+
+    <h2>List:</h2>
+    <div id="list"></div>
+
+
+    <script>
+
+        let items = [];
+
+        function addItem() {
+            let name = document.getElementById('nameInput').value;
+            let roll = document.getElementById('rollInput').value;
+
+
+            if (name == '' || roll == '') {
+                alert('Fill both fields!');
+                return
+            }
+
+            items.push({
+                name: name,
+                roll: roll,
+                id: Date.now(),
+            })
+
+
+            saveToLocalStorage('AbuContainer', items);
+
+
+            document.getElementById('nameInput').value = '';
+            document.getElementById('rollInput').value = '';
+
+            // Show on page
+            displayItems();
+
+
+        }
+
+
+        function displayItems() {
+            let html = '';
+            items.forEach(item => {
+                html += `
+            <div class="item">
+                Name: ${item.name} | Roll: ${item.roll}
+                <button onclick="deleteItem(${item.id})">Delete</button>
+            </div>
+        `; })
+
+         document.getElementById('list').innerHTML = html;
+
+        }
+
+
+        function saveToLocalStorage(key, data) {
+            localStorage.setItem(key, JSON.stringify(data))
+
+        }
+
+
+
+
+
+
+    </script>
+
+</body>
+
+</html>
