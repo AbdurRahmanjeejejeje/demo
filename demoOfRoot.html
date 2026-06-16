@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Auth Demo</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-900 text-white">
+
+<!-- LANDING PAGE -->
+<div id="landing" class="h-screen flex flex-col items-center justify-center">
+    <h1 class="text-4xl font-bold mb-6">Welcome to My App</h1>
+
+    <div class="space-x-4">
+        <button onclick="showLogin()" class="bg-blue-500 px-6 py-3 rounded">
+            Login
+        </button>
+
+        <button onclick="showSignup()" class="bg-green-500 px-6 py-3 rounded">
+            Signup
+        </button>
+    </div>
+</div>
+
+<!-- LOGIN PAGE -->
+<div id="login" class="hidden h-screen flex flex-col items-center justify-center">
+    <h2 class="text-3xl mb-4">Login</h2>
+
+    <input id="loginEmail" class="p-2 mb-2 text-black" placeholder="Email">
+    <input id="loginPassword" type="password" class="p-2 mb-4 text-black" placeholder="Password">
+
+    <button onclick="login()" class="bg-blue-500 px-6 py-2 rounded mb-2">
+        Login
+    </button>
+
+    <button onclick="backToLanding()" class="text-sm underline">
+        Back
+    </button>
+</div>
+
+<!-- SIGNUP PAGE -->
+<div id="signup" class="hidden h-screen flex flex-col items-center justify-center">
+    <h2 class="text-3xl mb-4">Signup</h2>
+
+    <input id="signupName" class="p-2 mb-2 text-black" placeholder="Name">
+    <input id="signupEmail" class="p-2 mb-2 text-black" placeholder="Email">
+    <input id="signupPassword" type="password" class="p-2 mb-4 text-black" placeholder="Password">
+
+    <button onclick="signup()" class="bg-green-500 px-6 py-2 rounded mb-2">
+        Create Account
+    </button>
+
+    <button onclick="backToLanding()" class="text-sm underline">
+        Back
+    </button>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard" class="hidden h-screen flex flex-col items-center justify-center">
+    <h1 class="text-4xl font-bold">Dashboard</h1>
+    <p class="mt-4">Welcome 👋 <span id="userName"></span></p>
+
+    <button onclick="logout()" class="mt-6 bg-red-500 px-6 py-2 rounded">
+        Logout
+    </button>
+</div>
+
+<script>
+
+// PAGE NAVIGATION
+function showLogin(){
+    hideAll();
+    document.getElementById("login").classList.remove("hidden");
+}
+
+function showSignup(){
+    hideAll();
+    document.getElementById("signup").classList.remove("hidden");
+}
+
+function backToLanding(){
+    hideAll();
+    document.getElementById("landing").classList.remove("hidden");
+}
+
+function hideAll(){
+    document.getElementById("landing").classList.add("hidden");
+    document.getElementById("login").classList.add("hidden");
+    document.getElementById("signup").classList.add("hidden");
+    document.getElementById("dashboard").classList.add("hidden");
+}
+
+// SIGNUP (fake storage)
+function signup(){
+    const name = document.getElementById("signupName").value;
+    const email = document.getElementById("signupEmail").value;
+    const password = document.getElementById("signupPassword").value;
+
+    if(name && email && password){
+        localStorage.setItem("user", JSON.stringify({name, email, password}));
+        alert("Account created!");
+        showLogin();
+    } else {
+        alert("Fill all fields");
+    }
+}
+
+// LOGIN (fake check)
+function login(){
+    const email = document.getElementById("loginEmail").value;
+    const password = document.getElementById("loginPassword").value;
+
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if(user && email === user.email && password === user.password){
+        hideAll();
+        document.getElementById("dashboard").classList.remove("hidden");
+        document.getElementById("userName").innerText = user.name;
+    } else {
+        alert("Invalid credentials");
+    }
+}
+
+// LOGOUT
+function logout(){
+    backToLanding();
+}
+
+</script>
+
+</body>
+</html>

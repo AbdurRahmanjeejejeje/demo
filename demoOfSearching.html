@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Filter Demo</title>
+</head>
+
+<body>
+
+<h3>Type a letter to filter</h3>
+
+<input id="search" type="text" placeholder="Type a letter...">
+
+<div id="list">
+    <p class="item">one</p>
+    <p class="item">two</p>
+    <p class="item">three</p>
+    <p class="item">four</p>
+    <p class="item">five</p>
+    <p class="item">six</p>
+</div>
+
+<script>
+
+const input = document.getElementById("search");
+const items = document.querySelectorAll(".item");
+
+input.addEventListener("input", () => {
+
+    const value = input.value.toLowerCase();
+
+    items.forEach(item => {
+
+        const text = item.textContent.toLowerCase();
+
+        // core logic: match or not
+        if(text.includes(value)){
+            item.style.display = "block";   // show
+        }
+        
+        else {
+            item.style.display = "none";    // hide
+        }
+
+    });
+
+});
+
+</script>
+
+</body>
+</html>

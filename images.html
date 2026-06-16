@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Background Switch Demo</title>
+
+<style>
+body{
+    margin: 0;
+    font-family: Arial;
+    text-align: center;
+
+    /* default background */
+    background-image: url('https://picsum.photos/800/500?random=1');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+}
+
+h2{
+    color: white;
+    padding-top: 20px;
+}
+
+.container{
+    position: fixed;
+    bottom: 20px;
+    width: 100%;
+}
+
+img{
+    width: 100px;
+    height: 70px;
+    margin: 5px;
+    cursor: pointer;
+    border: 2px solid white;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Click an image to change background</h2>
+
+<div class="container">
+    <img src="https://picsum.photos/200/150?random=1" class="thumb">
+    <img src="https://picsum.photos/200/150?random=2" class="thumb">
+    <img src="https://picsum.photos/200/150?random=3" class="thumb">
+    <img src="https://picsum.photos/200/150?random=4" class="thumb">
+    <img src="https://picsum.photos/200/150?random=5" class="thumb">
+</div>
+
+<script>
+
+const thumbs = document.querySelectorAll(".thumb");
+
+thumbs.forEach(img => {
+
+    img.addEventListener("click", () => {
+
+        document.body.style.backgroundImage = `url(${img.src})`;
+
+    });
+
+});
+
+</script>
+
+</body>
+</html>

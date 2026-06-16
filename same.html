@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <h3>Type a letter to filter</h3>
+
+    <input id="search" type="text" placeholder="Type a letter...">
+
+    <div id="list">
+        <p class="item">one</p>
+        <p class="item">two</p>
+        <p class="item">three</p>
+        <p class="item">four</p>
+        <p class="item">five</p>
+        <p class="item">six</p>
+    </div>
+
+    <script>
+        let inPutBox = document.getElementById('search');
+        let listContainer = document.querySelector('#list');
+        let elements = listContainer.querySelectorAll('.item');
+
+
+        inPutBox.addEventListener('input', () => {
+            let data = inPutBox.value.toLowerCase();
+
+            elements.forEach(element => {
+                let text = element.textContent.toLowerCase();
+
+
+                if (text.includes(data)) {
+
+                    element.style.display = 'block';
+
+                }
+
+                else {
+                    element.style.display = "none";    // hide
+                }
+            })
+        })
+    </script>
+
+</body>
+
+</html>

@@ -43,56 +43,91 @@
     <script>
 
         let items = [];
+        let student = {};
+
+        function saveLocalStorage(key, data) {
+            localStorage.setItem(key, JSON.stringify(data))
+        }
 
         function addItem() {
             let name = document.getElementById('nameInput').value;
             let roll = document.getElementById('rollInput').value;
 
-
             if (name == '' || roll == '') {
                 alert('Fill both fields!');
-                return
+                return;
             }
 
-            items.push({
+            student = {
                 name: name,
                 roll: roll,
-                id: Date.now(),
-            })
+                id: Date.now()
+            }
 
+            items.push(student);
 
-            saveToLocalStorage('AbuContainer', items);
-
+            saveLocalStorage('AbuLocalStorage', items);
 
             document.getElementById('nameInput').value = '';
             document.getElementById('rollInput').value = '';
 
-            // Show on page
+
             displayItems();
 
 
         }
 
 
+        function deleteItem(id){
+
+            items = items.filter(item => item.id !=id);
+            saveLocalStorage('AbuLocalStorage', items)
+            displayItems()
+
+        }
+
+
         function displayItems() {
-            let html = '';
+            let skelton = '';
+
             items.forEach(item => {
-                html += `
-            <div class="item">
-                Name: ${item.name} | Roll: ${item.roll}
-                <button onclick="deleteItem(${item.id})">Delete</button>
-            </div>
-        `; })
 
-         document.getElementById('list').innerHTML = html;
+                skelton += `
+                            <div class="item">
+                                Name: ${item.name} || Roll: ${item.roll}
+                                <button onclick="deleteItem(${item.id})">Delete</button>    
+                            </div>
+                           `;
+            });
+
+            document.getElementById('list').innerHTML = skelton;
+
+
+
 
         }
 
+        function getBackFromLocalStorage(key) {
 
-        function saveToLocalStorage(key, data) {
-            localStorage.setItem(key, JSON.stringify(data))
+            let data = localStorage.getItem(key);
+         
+                return JSON.parse(data);
+            
+
+    
 
         }
+
+        function loadData() {
+             items = getBackFromLocalStorage('AbuLocalStorage');
+
+            displayItems();
+        }
+
+
+
+
+        loadData();
 
 
 
