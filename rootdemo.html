@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>abu</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="bg-gray-900 text-white">
+
+    <!-- LANDING PAGE -->
+    <div id="landing" class="h-screen flex flex-col items-center justify-center">
+        <h1 class="text-4xl font-bold mb-6">Welcome to My App</h1>
+
+        <div class="space-x-4">
+            <button onclick="showLogin()" class="bg-blue-500 px-6 py-3 rounded">
+                Login
+            </button>
+
+            <button onclick="showSignup()" class="bg-green-500 px-6 py-3 rounded">
+                Signup
+            </button>
+        </div>
+    </div>
+
+    <!-- LOGIN PAGE -->
+    <div id="login" class="hidden h-screen flex flex-col items-center justify-center">
+        <h2 class="text-3xl mb-4">Login</h2>
+
+        <input id="loginEmail" class="p-2 mb-2 text-black" placeholder="Email">
+        <input id="loginPassword" type="password" class="p-2 mb-4 text-black" placeholder="Password">
+
+        <button onclick="login()" class="bg-blue-500 px-6 py-2 rounded mb-2">
+            Login
+        </button>
+
+        <button onclick="backToLanding()" class="text-sm underline">
+            Back
+        </button>
+    </div>
+
+    <!-- SIGNUP PAGE -->
+    <div id="signup" class="hidden h-screen flex flex-col items-center justify-center">
+        <h2 class="text-3xl mb-4">Signup</h2>
+
+        <input id="signupName" class="p-2 mb-2 text-black bg-blue-200" placeholder="Name">
+        <input id="signupEmail" class="p-2 mb-2 text-black bg-blue-200" placeholder="Email">
+        <input id="signupPassword" type="password" class="p-2 mb-4 text-black bg-blue-200" placeholder="Password">
+
+        <button onclick="signup()" class="bg-green-500 px-6 py-2 rounded mb-2">
+            Create Account
+        </button>
+
+        <button onclick="backToLanding()" class="text-sm underline">
+            Back
+        </button>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="dashboard" class="hidden h-screen flex flex-col items-center justify-center">
+        <h1 class="text-4xl font-bold">Dashboard</h1>
+        <p class="mt-4">Welcome 👋 <span id="userName"></span></p>
+
+        <button onclick="logout()" class="mt-6 bg-red-500 px-6 py-2 rounded">
+            Logout
+        </button>
+    </div>
+
+
+    <script>
+
+        // arrray and object
+        let student_details = [];
+        let eachOne = {};
+
+
+        // at default all the divs should be hidden
+        function hideAll() {
+            let landing = document.getElementById('landing').classList.add('hidden');
+            let login = document.getElementById('login').classList.add('hidden');
+            let signup = document.getElementById('signup').classList.add('hidden');
+            let dashboard = document.getElementById('dashboard').classList.add('hidden');
+
+
+        }
+
+        function showSignup() {
+            hideAll();
+            document.getElementById('signup').classList.remove('hidden');
+        }
+
+        function signup() {
+            let signupName = document.getElementById('signupName').value;
+            let signupEmail = document.getElementById('signupEmail').value;
+            let signupPassword = document.getElementById('signupPassword').value;
+
+            eachOne = {
+                name: signupName,
+                email: signupEmail,
+                passWord: signupPassword
+            }
+
+            student_details.push(eachOne);
+
+            localStorage.setItem('lalapitchu@', JSON.stringify(student_details))
+            alert("Account created!");
+            showLogin();
+
+
+        }
+
+
+        function login(){
+            let loginEmail = document.getElementById('loginEmail').value;
+            let loginPassword = document.getElementById('loginPassword').value;
+
+            let data = localStorage.getItem('lalapitchu@');
+            let student_details = JSON.parse(data);
+            
+            for(let x=0; x<arr.length; x++){
+                if(arr[x].email!==email){
+                    alert("Email is invalid");
+                }
+
+                else if(arr[x].passWord!==loginPassword){
+                    alert("Passwor is invalid")
+                }
+
+                else{
+                    alter("Here is your panel.....");
+                    hideAll();
+                    document.getElementById('dashboard').classList.remove('hidden');
+
+                }
+            }
+        }
+
+        function showLogin() {
+            hideAll();
+            document.getElementById('login').classList.remove('hidden');
+
+        }
+    </script>
+
+
+
+</body>
+
+</html>
