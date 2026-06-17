@@ -92,16 +92,25 @@ function hideAll(){
 }
 
 let items = [];
-let obj
+let obj = {};
+
 // SIGNUP (fake storage)
 function signup(){
     const name = document.getElementById("signupName").value;
     const email = document.getElementById("signupEmail").value;
     const password = document.getElementById("signupPassword").value;
+
+    obj = {
+        name: name,
+        email: email,
+        password: password
+    }
+
+    items.push(obj);
     
 
     if(name && email && password){
-        localStorage.setItem("user", JSON.stringify({name, email, password}));
+        localStorage.setItem("user", JSON.stringify(items));
         alert("Account created!");
         showLogin();
     } else {

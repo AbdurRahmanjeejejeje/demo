@@ -28,8 +28,8 @@
     <div id="login" class="hidden h-screen flex flex-col items-center justify-center">
         <h2 class="text-3xl mb-4">Login</h2>
 
-        <input id="loginEmail" class="p-2 mb-2 text-black" placeholder="Email">
-        <input id="loginPassword" type="password" class="p-2 mb-4 text-black" placeholder="Password">
+        <input id="loginEmail" autocomplete="off" class="p-2 mb-2 text-black" placeholder="Email">
+        <input id="loginPassword" autocomplete="off" type="password" class="p-2 mb-4 text-black" placeholder="Password">
 
         <button onclick="login()" class="bg-blue-500 px-6 py-2 rounded mb-2">
             Login
@@ -70,6 +70,9 @@
 
     <script>
 
+
+
+
         // arrray and object
         let student_details = [];
         let eachOne = {};
@@ -109,26 +112,26 @@
 
 
         }
-
+        
 
         function login(){
             let loginEmail = document.getElementById('loginEmail').value;
             let loginPassword = document.getElementById('loginPassword').value;
 
-            let data = localStorage.getItem('lalapitchu@');
-            let student_details = JSON.parse(data);
+            let data = JSON.parse(localStorage.getItem('lalapitchu@'));
             
-            for(let x=0; x<arr.length; x++){
-                if(arr[x].email!==email){
+            
+            for(let x=0; x<data.length; x++){
+                if(data[x].email!==loginEmail){
                     alert("Email is invalid");
                 }
 
-                else if(arr[x].passWord!==loginPassword){
+                else if(data[x].passWord!==loginPassword){
                     alert("Passwor is invalid")
                 }
 
                 else{
-                    alter("Here is your panel.....");
+                    alert("Here is your panel.....");
                     hideAll();
                     document.getElementById('dashboard').classList.remove('hidden');
 

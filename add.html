@@ -16,13 +16,18 @@
     <button onclick="add()">Click</button>
 
     <script>
-            
+
 
 
         function add() {
-        
+            let num1 = document.getElementById('one').value;
+            let num2 = document.getElementById('two').value;
+            let list = document.getElementById('para');
+
             let total = Number(num1) + Number(num2);
+
             list.textContent = total
+
 
         }
     </script>
