@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DBMS</title>
+</head>
+
+<body>
+
+    <input type="text" id="name">
+    <input type="text" id="age">
+    <button id="btn">Click</button>
+    <div id="listMain"></div>
+
+    <script>
+
+        let button = document.getElementById('btn');
+        let listMain = document.getElementById('listMain');
+
+        // IMPORTANT: load old data from localStorage OR empty array
+        let items = JSON.parse(localStorage.getItem('DataOfStudents')) || [];
+
+
+        button.addEventListener('click', () => {
+
+            let name = document.getElementById('name').value;
+            let age = document.getElementById('age').value;
+
+            let student = {
+                name: name,
+                age: age
+            };
+
+            items.push(student);
+
+            localStorage.setItem('DataOfStudents', JSON.stringify(items));
+
+            display(name, age);
+        });
+
+
+        function display(name, age) {
+            let element = document.createElement('p');
+            element.innerHTML = `My name is ${name} and age is ${age}`;
+            listMain.append(element);
+        }
+
+
+        function formLoad() {
+
+            let data = JSON.parse(localStorage.getItem('DataOfStudents')) || [];
+
+            data.forEach(element => {
+                let tag = document.createElement('p');
+                tag.innerHTML = `My name is ${element.name} and age is ${element.age}`;
+                listMain.append(tag);
+            });
+        }
+
+        formLoad();
+
+    </script>
+
+</body>
+
+</html>

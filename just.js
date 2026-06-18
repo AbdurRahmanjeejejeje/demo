@@ -24,13 +24,13 @@
 // hello(bye, arr)
 
 
-function a(letter){
+let a = (letter) =>{
 
    return letter()
 
 }
 
-function b(){
+let b = () =>{
 
     let x = 1;
     let y = 1;
